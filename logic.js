@@ -2,10 +2,14 @@ gsap.registerPlugin('ScrollTrigger');
 
 document.addEventListener('DOMContentLoaded', function main(){
     // Check if page ID is already saved in local storage
+    const savedInc = localStorage.getItem('income');
     const savedPageId = localStorage.getItem('pageId');
     if (savedPageId) {
         // If page ID is already saved, set the input field value to the saved page ID
         document.getElementById("page_id_input").value = savedPageId;
+    }
+    if (savedInc){
+        document.getElementById('incomes').innerText = '₹' + savedInc;
     }
     fetchData();
 
@@ -146,7 +150,7 @@ function closeModal(bool) {
 function savePageId() {
     const pageId = document.getElementById("page_id_input").value;
     localStorage.setItem('pageId', pageId);
-    closePageIdModal(0);
+    closeModal(0);
 }
 
 function updateIncome(arg){
@@ -161,8 +165,9 @@ function updateIncome(arg){
     else{
         arg === 'add' ?  inc = inc + amt : inc = inc - amt;
         element.innerText = '₹' + inc;
+        localStorage.setItem('income',inc);
         document.getElementById('amt_').value = '';
-        closePageIdModal(1);
+        closeModal(1);
         manageBalance();
     }
 
